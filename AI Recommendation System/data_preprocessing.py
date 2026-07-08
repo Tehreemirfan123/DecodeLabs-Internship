@@ -112,6 +112,13 @@ movies["release_year"] = movies["release_date"].dt.year
 # Drop release date
 movies.drop(columns=["release_date"], inplace=True)
 
+# Create Tags column
+movies["tags"] = (
+    movies["genres"] + " " +
+    movies["keywords"] + " " +
+    movies["overview"]
+)
+
 movies.to_csv("data/clean_movies.csv", index=False)
 
 print("Clean dataset saved successfully!")
