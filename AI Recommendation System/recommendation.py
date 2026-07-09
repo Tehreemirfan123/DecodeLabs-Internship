@@ -1,6 +1,7 @@
+from dotenv import load_dotenv
+import streamlit as st
 import pandas as pd
 import requests
-from dotenv import load_dotenv
 import os
 
 from sklearn.feature_extraction.text import TfidfVectorizer

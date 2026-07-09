@@ -8,7 +8,7 @@ from recommendation import (
 )
 
 st.set_page_config(
-    page_title="AI Movie Recommendation System",
+    page_title="CineMatch AI",
     page_icon="🎬",
     layout="wide"
 )
@@ -16,7 +16,7 @@ st.set_page_config(
 st.markdown(
     """
     <h1 style='text-align: center; color:#FF4B4B;'>
-        🎬 AI Movie Recommendation System
+        🎬 CineMatch AI
     </h1>
     """,
     unsafe_allow_html=True
@@ -80,6 +80,8 @@ selected_movie = st.selectbox(
 
 if st.button("🎬 Recommend Movies"):
 
+    st.subheader("✨ Recommended For You")
+
     recommendations = recommend_movies(
         movie_title=selected_movie,
         filtered_movies=filtered_movies
@@ -92,18 +94,23 @@ if st.button("🎬 Recommend Movies"):
         # st.dataframe(recommendations)
         # st.success("Recommendations generated successfully!")
 
-        for _, movie in recommendations.iterrows():
-            col1, col2 = st.columns([1, 3])
-            with col1:
-                poster = fetch_poster(movie["id"])
+        cols = st.columns(5)
 
-                if poster:
-                    st.image(poster)
-            with col2:
+        for index, (_, movie) in enumerate(recommendations.iterrows()):
+            with cols[index % 5]:
+                with st.container(border=True):
+                    poster = fetch_poster(movie["id"])
 
-                st.subheader(movie["title"])
-                st.write(f"⭐ Rating: {movie['rating']}")
-                st.write(f"📅 {movie['release_year']}")
-                st.write(f"📊 Match Score: {movie['similarity_score']}%")
-                st.write(movie["overview"])
-            st.divider()
+                    if poster:
+                        _, center, _ = st.columns([1, 4, 1])
+                        with center:
+                            st.image(poster, width=160)
+                        # st.image(poster, width=170)
+                    st.markdown(f"### {movie['title']}")
+                    st.markdown(f"⭐ **Rating:** {movie['rating']}")
+                    st.markdown(f"📅 **Year:** {movie['release_year']}")
+                    st.markdown(
+                        f"📊 **Match:** {movie['similarity_score']}%"
+                    )
+                    with st.expander("Synopsis"):
+                        st.write(movie["overview"])
