@@ -76,3 +76,17 @@ selected_movie = st.selectbox(
     "Select a Movie",
     filtered_movies["title"]
 )
+
+if st.button("🎬 Recommend Movies"):
+
+    recommendations = recommend_movies(
+        movie_title=selected_movie,
+        filtered_movies=filtered_movies
+    )
+
+    if recommendations.empty:
+        st.warning("No similar movies found.")
+
+    else:
+        st.dataframe(recommendations)
+        st.success("Recommendations generated successfully!")
