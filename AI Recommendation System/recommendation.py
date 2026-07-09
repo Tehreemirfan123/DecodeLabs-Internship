@@ -1,7 +1,13 @@
 import pandas as pd
+import requests
+from dotenv import load_dotenv
+import os
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+
+load_dotenv()
+API_KEY = os.getenv("TMDB_API_KEY")
 
 movies = pd.read_csv("data/clean_movies.csv")
 
@@ -116,3 +122,29 @@ def recommend_movies(movie_title, filtered_movies, top_n=10):
 #     )
 
 #     print(recommendations)
+
+def fetch_poster(movie_id):
+
+    api_key = os.getenv("TMDB_API_KEY")
+
+    url = (
+        f"https://api.themoviedb.org/3/movie/{movie_id}"
+        f"?api_key={api_key}"
+    )
+
+    response = requests.get(url)
+
+    data = response.json()
+
+    poster_path = data.get("poster_path")
+
+    if poster_path:
+
+        return (
+            "https://image.tmdb.org/t/p/w500"
+            + poster_path
+        )
+
+    return None
+
+# print(fetch_poster(19995))
