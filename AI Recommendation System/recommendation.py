@@ -123,6 +123,7 @@ def recommend_movies(movie_title, filtered_movies, top_n=10):
 
 #     print(recommendations)
 
+# Poster Fetch
 def fetch_poster(movie_id):
 
     api_key = os.getenv("TMDB_API_KEY")
@@ -147,4 +148,5 @@ def fetch_poster(movie_id):
 
     return None
 
+# Test
 # print(fetch_poster(19995))
