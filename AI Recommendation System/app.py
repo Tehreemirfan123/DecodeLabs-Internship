@@ -88,5 +88,13 @@ if st.button("🎬 Recommend Movies"):
         st.warning("No similar movies found.")
 
     else:
-        st.dataframe(recommendations)
-        st.success("Recommendations generated successfully!")
+        # st.dataframe(recommendations)
+        # st.success("Recommendations generated successfully!")
+
+        for _, movie in recommendations.iterrows():
+            st.subheader(movie["title"])
+            st.write(f"⭐ Rating: {movie['rating']}")
+            st.write(f"📅 Release Year: {movie['release_year']}")
+            st.write(f"📊 Match Score: {movie['similarity_score']}%")
+            st.write(movie["overview"])
+            st.divider()
