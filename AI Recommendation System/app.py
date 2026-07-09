@@ -32,3 +32,51 @@ st.markdown(
 )
 
 movies = pd.read_csv("data/clean_movies.csv")
+
+print(movies["genres"].isnull().sum())
+print(movies[movies["genres"].isnull()])
+
+# Genre Dropdown
+genres = sorted({
+    genre.strip()
+    for genre_list in movies["genres"].dropna()
+    for genre in genre_list.split(",")
+})
+
+selected_genre = st.selectbox(
+    "Select Genre",
+    genres
+)
+
+# Language Dropdown
+languages = sorted(
+    movies["original_language"].unique()
+)
+
+selected_language = st.selectbox(
+    "Select Language",
+    languages
+)
+
+# Rating Slider
+minimum_rating = st.slider(
+    "Minimum Rating",
+    min_value=0.0,
+    max_value=10.0,
+    value=7.5,
+    step=0.5
+)
+
+# Filter movies
+filtered_movies = get_filtered_movies(
+    selected_genre,
+    selected_language,
+    minimum_rating
+)
+
+# Movie Droopdown
+selected_movie = st.selectbox(
+    "Select a Movie",
+    filtered_movies["title"]
+
+)

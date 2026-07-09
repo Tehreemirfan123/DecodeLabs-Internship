@@ -47,6 +47,8 @@ def extract_names(text):
 movies["genres"] = movies["genres"].apply(extract_names)
 movies["keywords"] = movies["keywords"].apply(extract_names)
 
+movies = movies[movies["genres"] != ""]
+
 # Check
 print(movies["genres"].iloc[0])
 
