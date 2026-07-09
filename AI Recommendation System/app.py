@@ -3,7 +3,8 @@ import pandas as pd
 
 from recommendation import (
     get_filtered_movies,
-    recommend_movies
+    recommend_movies, 
+    fetch_poster
 )
 
 st.set_page_config(
@@ -92,9 +93,17 @@ if st.button("🎬 Recommend Movies"):
         # st.success("Recommendations generated successfully!")
 
         for _, movie in recommendations.iterrows():
-            st.subheader(movie["title"])
-            st.write(f"⭐ Rating: {movie['rating']}")
-            st.write(f"📅 Release Year: {movie['release_year']}")
-            st.write(f"📊 Match Score: {movie['similarity_score']}%")
-            st.write(movie["overview"])
+            col1, col2 = st.columns([1, 3])
+            with col1:
+                poster = fetch_poster(movie["id"])
+
+                if poster:
+                    st.image(poster)
+            with col2:
+
+                st.subheader(movie["title"])
+                st.write(f"⭐ Rating: {movie['rating']}")
+                st.write(f"📅 {movie['release_year']}")
+                st.write(f"📊 Match Score: {movie['similarity_score']}%")
+                st.write(movie["overview"])
             st.divider()

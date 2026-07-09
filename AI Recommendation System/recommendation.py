@@ -124,6 +124,7 @@ def recommend_movies(movie_title, filtered_movies, top_n=10):
 #     print(recommendations)
 
 # Poster Fetch
+@st.cache_data
 def fetch_poster(movie_id):
 
     api_key = os.getenv("TMDB_API_KEY")
