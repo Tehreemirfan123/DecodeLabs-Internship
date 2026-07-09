@@ -2,3 +2,4 @@
 Assignments/
 .venv
 venv/
+__pycache__
